@@ -1,18 +1,36 @@
-import {Link} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
- export default function Navbar(){
-    return(
-
-    <nav style={{ padding: "10px", display: "flex" ,background: "#111010ff" }}>
-        <ul style={{ display: "flex", gap: "20px", listStyle: "none" }}>
-            <li>
-                <Link to="/employees"  style={{ color: "white", textDecoration: "none" }}>Employees</Link>
-            </li>
-            <li>
-                <Link to="/"  style={{ color: "white", textDecoration: "none" }}>Dashboard</Link>
-            </li>
-        </ul>
-    </nav>
+export default function Navbar() {
+    const location = useLocation();
+    
+    return (
+        <nav className="navbar">
+            <div className="container">
+                <div className="flex items-center justify-between" style={{ padding: "var(--spacing-4) 0" }}>
+                    <Link to="/" className="navbar-brand">
+                        Employee Management
+                    </Link>
+                    <ul className="navbar-nav">
+                        <li>
+                            <Link 
+                                to="/" 
+                                className={location.pathname === "/" ? "active" : ""}
+                            >
+                                Dashboard
+                            </Link>
+                        </li>
+                        <li>
+                            <Link 
+                                to="/employees" 
+                                className={location.pathname === "/employees" ? "active" : ""}
+                            >
+                                Employees
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     );
 }
 
