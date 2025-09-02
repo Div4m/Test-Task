@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>localStorage Example</title>
+</head>
+<body>
+  <!-- Paragraph to display saved username -->
+  <p id="display"></p>
+
+  <!-- Input + Button -->
+  <input type="text" id="usernameInput" placeholder="Enter username">
+  <button id="saveBtn">Save Username</button>
+
+  <script>
+    // Step 1: Save default "username = Divyansh" in localStorage
+    localStorage.setItem("username", "Divyansh");
+
+    // Step 2: Display it in <p>
+    let displayPara = document.getElementById("display");
+    displayPara.innerText = "Stored username: " + localStorage.getItem("username");
+
+    // Step 3: Handle input + button
+    let saveBtn = document.getElementById("saveBtn");
+    saveBtn.addEventListener("click", function() {
+      let inputValue = document.getElementById("usernameInput").value;
+      
+      // Save new value in localStorage
+      localStorage.setItem("username", inputValue);
+
+      // Update paragraph
+      displayPara.innerText = "Stored username: " + localStorage.getItem("username");
+
+      // Show confirmation
+      alert("Saved!");
+    });
+  </script>
+</body>
+</html>
+ </body>
+</html>
+
+
+  <!-- <div class="box">Box 1</div>
+  <div class="box">Box 2</div>
+  <div class="box">Box 3</div>
+
+  <h2 id="count"></h2>
+  <script>
+    let boxes = document.getElementsByClassName("box");
+
+    for(let i=0;i<boxes.length;i++){
+
+      boxes[i].style.background = "yellow";
+      boxes[i].style.padding = "10px";
+      boxes[i].style.margin = "5px";
+    }
+
+    let countHead = document.getElementById("count");
+    countHead.innerText = "total boxes"+boxes.length; 
+  </script> -->
+  <!-- <p id="para">Hello</p> 
+  <button id ="btn">Change color</button>
+  <script>
+    let chan = document.getElementById("para").innerText="Welcome to DOM";
+    let bot = document.getElementById("btn");
+    bot.addEventListener("click",function(){
+      para.style.color="red";
+    })
+  </script> -->
+</body>
+</html>
