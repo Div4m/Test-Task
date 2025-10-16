@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn
 import { Role } from "./role.js";
 import { Permission } from "./permission.js";
 
-@Entity("rolePermissions")
+@Entity("role_permissions")
 export class RolePermission {
     @PrimaryGeneratedColumn("uuid")
     id!: string;

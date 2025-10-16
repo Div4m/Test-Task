@@ -3,7 +3,7 @@ export interface IUserCreateDTO {
   first_name: string;
   last_name?: string | null;
   phone?: string;
-  country_code?: string;
+  country_code?: string ;
   email: string;
   password: string;
   role_id: string;
@@ -23,4 +23,9 @@ export interface IUserDTO {
   status: boolean;
   role_id?: string;
   created_at: Date;
+}
+
+export interface IUserLoginDTO{
+  email:string;
+  password:string;
 }

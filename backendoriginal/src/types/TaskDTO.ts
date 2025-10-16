@@ -8,8 +8,8 @@ export interface TaskCreateDTO {
     assignedToId?: string; // assigned user id
     priorityId?: string;   // priority id
 }
-import type { IUserDTO } from "./UserDTO";
-import type { PriorityDTO } from "./PriorityDTO";
+import type { IUserDTO } from "./UserDTO.js";
+import type { PriorityDTO } from "./PriorityDTO.js";
 
 export interface TaskDTO {
     id: string;

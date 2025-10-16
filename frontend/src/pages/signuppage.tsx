@@ -1,9 +1,12 @@
-import React,{useState} from "react";
+import {useState} from "react";
 import {SignupData} from "../types/userType";
 import { signupUser } from "../api/signup";
+import { useNavigate } from "react-router-dom";
+import "../css/signup.css";
 
 
 const Signup = () =>{
+    const navigate =useNavigate();
     const [formData,setFormData] = useState<SignupData>({
         profile_pic:"",
         first_name:"",
@@ -13,6 +16,7 @@ const Signup = () =>{
         country_code: "",
         phone:""
     });
+    
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setFormData({...formData,[e.target.name]:e.target.value})
@@ -30,9 +34,9 @@ const Signup = () =>{
     };
 
     return (
-    <div style={{ maxWidth: 400, margin: "50px auto", padding: 20, border: "1px solid #1a1919ff", borderRadius: 10 }}>
-      <h2>Signup</h2>
-      <form onSubmit={handleSignup}>
+   <div className="signup-container">
+      <h2>Sign Up</h2>
+      <form className="signup-form" onSubmit={handleSignup}>
         <input
           type="text"
           name="first_name"
@@ -41,7 +45,6 @@ const Signup = () =>{
           onChange={handleChange}
           required
         />
-        <br /><br />
         <input
           type="text"
           name="last_name"
@@ -49,7 +52,6 @@ const Signup = () =>{
           value={formData.last_name}
           onChange={handleChange}
         />
-        <br /><br />
         <input
           type="email"
           name="email"
@@ -58,7 +60,6 @@ const Signup = () =>{
           onChange={handleChange}
           required
         />
-        <br /><br />
         <input
           type="password"
           name="password"
@@ -67,12 +68,46 @@ const Signup = () =>{
           onChange={handleChange}
           required
         />
-        <br /><br />
-        <button type="submit">Signup</button>
+        <div className="phone-wrapper">
+          <input
+            type="text"
+            name="country_code"
+            placeholder="+91"
+            value={formData.country_code}
+            onChange={handleChange}
+            required
+            className="country-code"
+          />
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+            className="phone-number"
+          />
+        </div>
+        <button type="submit">Sign Up</button>
+        
+        
       </form>
+       <p style={{ textAlign: "center", marginTop: "10px" }}>
+        Already have an account?
+        <button
+          style={{
+            color: "#007bff",
+            border: "none",
+            background: "none",
+            cursor: "pointer"
+          }}
+          onClick={() => navigate("/login")}
+        >
+          Login
+        </button>
+      </p>
     </div>
   );
-};
-
-export default Signup
+}
+export default Signup;
 

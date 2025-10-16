@@ -6,8 +6,8 @@ export interface TaskHistoryCreateDTO {
     new_value?: string;
 }
 
-import type { TaskDTO } from "./TaskDTO.ts";
-import type { IUserDTO } from "./UserDTO.ts";
+import type { TaskDTO } from "./TaskDTO.js";
+import type { IUserDTO } from "./UserDTO.js";
 
 export interface TaskHistoryDTO {
     id: string;

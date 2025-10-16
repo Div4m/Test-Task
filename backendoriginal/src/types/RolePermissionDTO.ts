@@ -3,8 +3,8 @@ export interface RolePermissionCreateDTO {
     permissionId: string;
 }
 
-import type { RoleDTO } from "./RoleDTO";
-import type { PermissionDTO } from "./PermissionDTO";
+import type { RoleDTO } from "./RoleDTO.js";
+import type { PermissionDTO } from "./PermissionDTO.js";
 
 export interface RolePermissionDTO {
     id: string;

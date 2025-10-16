@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
   JoinColumn,
 } from "typeorm";
-import { Role } from "./role.js";
+ import { Role } from "./role.js";
  import { Task } from "./tasks.js";
  import { TaskHistory } from "./taskHistory.js";
  import { StarredTask } from "./starredTask.js";
@@ -24,7 +24,7 @@ export class User {
   first_name!: string;
 
   @Column({ type: "varchar", length: 60, nullable: true })
-  last_name?: string;
+  last_name?: string|null;
 
   @Column({ type: "varchar", length: 20, nullable: true })
   phone?: string;
@@ -44,9 +44,9 @@ export class User {
   @Column({ type: "boolean", default: true })
   status!: boolean;
 
-  @ManyToOne(() => Role, (role) => role.users, { nullable: true })
+  @ManyToOne(() => Role, (role) => role.users, { nullable: true ,lazy:true})
   @JoinColumn({ name: "role_id" })
-  role?: Role;
+  role?: Promise<Role>;
 
   @OneToMany(() => Task, (task) => task.user, { lazy: true })
   tasksCreated!: Promise<Task[]>;

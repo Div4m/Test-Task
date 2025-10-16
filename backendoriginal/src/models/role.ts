@@ -7,7 +7,7 @@ export class Role {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
-    @Column({ length: 50, unique: true, nullable: false, default: "user" })
+    @Column({ length: 50, unique: true, nullable: false})
     role_name!: string;
 
     @CreateDateColumn({ type: "timestamp" })
@@ -16,8 +16,8 @@ export class Role {
     @UpdateDateColumn({ type: "timestamp" })
     updated_at!: Date;
 
-    @OneToMany(() => User, (user) => user.role)
-    users!: User[];
+    @OneToMany(() => User, (user) => user.role,{lazy:true})
+    users!: Promise<User[]>;
 
     @OneToMany(() => RolePermission, (rolePermission) => rolePermission.role, { lazy: true })
     rolePermissions!: Promise<RolePermission[]>;

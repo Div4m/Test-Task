@@ -2,7 +2,7 @@ import { Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn
 import { User } from "./users.js";
 import { Task } from "./tasks.js";
 
-@Entity("StarredTask")
+@Entity("starred_task")
 export class StarredTask {
     @PrimaryGeneratedColumn("uuid")
     id!: string;

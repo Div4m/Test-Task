@@ -3,7 +3,7 @@ export interface PriorityCreateDTO {
     weight: number;
 }
 
-import type { TaskDTO } from "./TaskDTO";
+import type { TaskDTO } from "./TaskDTO.js";
 
 export interface PriorityDTO {
     id: string;
