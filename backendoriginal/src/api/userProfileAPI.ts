@@ -9,7 +9,7 @@ interface fields{
     phone?:string | null,
     country_code? :string | null,
     profile_pic? : string | null,
-    
+    role_name?:string | null,
 }
 
 
@@ -36,6 +36,7 @@ export class UserApi{
             last_name: user.last_name?? null,
             email : user.email,
             phone: user.phone?? null,
+            
             country_code: user.country_code??null,
             profile_pic :user.profile_pic?? null,
         }

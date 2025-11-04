@@ -7,9 +7,12 @@ import {
   CreateDateColumn,
   JoinColumn,
 } from "typeorm";
- import { Role } from "./role.js";
- import { Task } from "./tasks.js";
- import { TaskHistory } from "./taskHistory.js";
+ import type { Role } from "./role.js";
+ import { Role as RoleEntity } from "./role.js";
+ import type{ Task } from "./tasks.js";
+ import { Task as TaskEntity } from "./tasks.js";
+ import type { TaskHistory } from "./taskHistory.js";
+ import { TaskHistory as TaskHistoryEntity } from "./taskHistory.js";
  import { StarredTask } from "./starredTask.js";
 
 @Entity("users") // table name in DB
@@ -44,23 +47,22 @@ export class User {
   @Column({ type: "boolean", default: true })
   status!: boolean;
 
-  @ManyToOne(() => Role, (role) => role.users, { nullable: true ,lazy:true})
+  @ManyToOne(() => RoleEntity, (role) => role.users, { eager:true,nullable: true})
   @JoinColumn({ name: "role_id" })
-  role?: Promise<Role>;
+  role?: Role | null;
 
-  @OneToMany(() => Task, (task) => task.user, { lazy: true })
-  tasksCreated!: Promise<Task[]>;
+  @OneToMany(() => TaskEntity, (task) => task.user)
+  tasksCreated!: Task[] ;
 
-  @OneToMany(() => Task, (task) => task.assignedTo, { lazy: true })
-  tasksAssigned!: Promise<Task[]>;
+  @OneToMany(() => TaskEntity, (task) => task.assignedTo)
+  tasksAssigned!: Task[] ;
 
-  @OneToMany(() => TaskHistory, (history) => history.user, { lazy: true })
-  history!: Promise<TaskHistory[]>;
+  @OneToMany(() => TaskHistoryEntity, (history) => history.user)
+  history!: TaskHistory[] ;
 
-  @OneToMany(() => StarredTask, (starred) => starred.user, { lazy: true })
-  starredTasks!: Promise<StarredTask[]>;
+  @OneToMany(() => StarredTask, (starred) => starred.user)
+  starredTasks!: StarredTask[] ;
 
   @CreateDateColumn({ type: "timestamp" })
   created_at!: Date;
 }
-

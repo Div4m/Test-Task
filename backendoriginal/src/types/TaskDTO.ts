@@ -24,3 +24,11 @@ export interface TaskDTO {
     assignedTo?: IUserDTO; // assigned user
     priority?: PriorityDTO;
 }
+export interface TaskUpdateDTO {
+  title?: string;
+  description?: string;
+  due_date?: Date;
+  status?: string;
+  assignedToId?: string;
+  priorityId?: string;
+}

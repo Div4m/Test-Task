@@ -9,7 +9,10 @@ export class LoginApi{
     async login(data:IUserLoginDTO){
         const UserRepo = AppDataSource.getRepository(User);
 
-        const user =  await UserRepo.findOneBy({email:data.email});
+        const user =  await UserRepo.findOne({
+            where:{email:data.email},
+            relations:["role"],
+        });
         if(!user) throw new Error("Invalid email");
 
         
@@ -17,11 +20,12 @@ export class LoginApi{
         if(!passawordValid) throw new Error ("Invalid password");
 
         const token = jwt.sign({
-            id:user.id,email:user.email,
-            role:(await user.role)?.role_name
+            id:user.id,
+            email:user.email,
+            role:user.role?.role_name
         },
             process.env.JWT_SECRET!,
-            {expiresIn:"1d"} 
+            {expiresIn:"1d"}
         )
 
         const {password , ...userWithoutPassword}=user;

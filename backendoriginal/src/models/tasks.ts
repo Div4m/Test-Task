@@ -8,9 +8,11 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
 } from "typeorm";
-import { User } from "./users.js";
+import type{ User } from "./users.js";
+import { User as UserEntity } from "./users.js";
 import { Priority } from "./priority.js";
-import { TaskHistory } from "./taskHistory.js";
+import type { TaskHistory } from "./taskHistory.js";
+import { TaskHistory as TaskHistoryEntity } from "./taskHistory.js";
 import { StarredTask } from "./starredTask.js";
 
 @Entity("tasks")
@@ -21,13 +23,13 @@ export class Task {
     @Column({ name: "task_id", type: "varchar", length: 60, unique: true })
     taskId!: string;
 
-    @ManyToOne(() => User, (user) => user.tasksCreated, { onDelete: "CASCADE", lazy: true })
+    @ManyToOne(() => UserEntity, (user) => user.tasksCreated, { onDelete: "CASCADE"})
     @JoinColumn({ name: "user_id" })
-    user!: Promise<User>;
+    user!: User;
 
-    @ManyToOne(() => Priority, (priority) => priority.tasks, { onDelete: "SET NULL", lazy: true })
+    @ManyToOne(() => Priority, (priority) => priority.tasks, { onDelete: "SET NULL"})
     @JoinColumn({ name: "priority_id" })
-    priority!: Promise<Priority>;
+    priority?: Priority;
 
     @Column({ type: "varchar", length: 100 })
     title!: string;
@@ -35,15 +37,15 @@ export class Task {
     @Column({ type: "text", nullable: true })
     description?: string;
 
-    @ManyToOne(() => User, (user) => user.tasksAssigned, { onDelete: "SET NULL", lazy: true })
+    @ManyToOne(() => UserEntity, (user) => user.tasksAssigned, { onDelete: "SET NULL"})
     @JoinColumn({ name: "assigned_to" })
-    assignedTo?: Promise<User>;
+    assignedTo?:User;
 
-    @OneToMany(() => TaskHistory, (history) => history.task, { lazy: true })
-    history!: Promise<TaskHistory[]>;
+    @OneToMany(() => TaskHistoryEntity, (history) => history.task)
+    history!: TaskHistory[];
 
-    @OneToMany(() => StarredTask, (starred) => starred.task, { lazy: true })
-    starredBy!: Promise<StarredTask[]>;
+    @OneToMany(() => StarredTask, (starred) => starred.task,{cascade:true})
+    starredBy!: StarredTask[];
 
     @Column({ type: "timestamp", nullable: true })
     due_date?: Date;

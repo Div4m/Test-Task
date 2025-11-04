@@ -7,6 +7,7 @@ import bcrypt from "bcrypt";
 export class SignupApi{
         private  userRepo = AppDataSource.getRepository(User);
         private  roleRepo = AppDataSource.getRepository(Role);
+        
     async signup(data:IUserCreateDTO){
         
 
@@ -15,9 +16,11 @@ export class SignupApi{
 
         const hashPassword = await bcrypt.hash(data.password,10);
         const defaultRole = await this.roleRepo.findOne({where:{role_name:"user"}});
+        const humanReadableId = `USER-${Math.floor(1000 + Math.random() * 9000)}`;
 
 
         const newUser = this.userRepo.create({
+            user_id:humanReadableId,
             first_name:data.first_name,
             last_name:data.last_name ?? null,
             country_code:data.country_code ?? null,
@@ -25,7 +28,7 @@ export class SignupApi{
             email:data.email,
             password:hashPassword,
             profile_pic:data.profile_pic ?? null,
-            role: Promise.resolve(defaultRole)
+            role: defaultRole,
         }as Partial<User>); //this tells typescript that it matches entity(partially);
 
         await this.userRepo.save(newUser);

@@ -6,8 +6,8 @@ export class LoginController{
 
     login = async(req:Request,res:Response)=>{
         try{
-            const user = await this.loginService.login(req.body);
-            res.status(200).json({message:"Login Succesfull!",user});
+            const {message,user,token} = await this.loginService.login(req.body);// here i added token with user
+            res.status(200).json({message,user,token,}); // here i added token with user
 
         }catch(err:any){
             res.status(400).json({error:err.message});

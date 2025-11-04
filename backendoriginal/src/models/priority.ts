@@ -6,14 +6,14 @@ export class Priority {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
-    @Column({ type: "varchar", length: 50, nullable: false })
+    @Column({ type: "varchar", length: 50, unique: true, nullable: false })
     level!: string;
 
     @Column({ type: "int" })
     weight!: number;
 
-    @OneToMany(() => Task, (task) => task.priority, { lazy: true })
-    tasks!: Promise<Task[]>;
+    @OneToMany(() => Task, (task) => task.priority)
+    tasks!: Task[];
 
     @CreateDateColumn({ type: "timestamp" })
     created_at!: Date;

@@ -1,10 +1,11 @@
 import type {NextFunction,Request,Response} from "express";
 import Jwt from "jsonwebtoken";
+import type {Role} from "../models/role.js";
 
 interface jwtpayload{
     id:string;
     userId?: string;
-    role?:string;
+    role?:Role | string;
 }
 export interface AuthRequest extends Request{
     user?:jwtpayload;

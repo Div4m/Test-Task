@@ -16,24 +16,44 @@ const Signup = () =>{
         country_code: "",
         phone:""
     });
-    
+    //const [profilePic,setProfilePic] = useState<File | null>(null);
+    const [error,setError] = useState<string | null>(null);
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
         setFormData({...formData,[e.target.name]:e.target.value})
     };
+    // const handleFileChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+    //   const file = e.target.files?.[0];
+    //   if(file){
+    //     setProfilePic(file);
+    //   }
+    // };
     const handleSignup = async (e:React.FormEvent)=>{
         e.preventDefault();
+        setError(null);
+    const api =  new signupUser();
     try{
-        const res = await signupUser(formData);
-        alert(res.data.message || "Signup SucessFul!");
+
+        // const formDataToSend = new FormData();
+        // formDataToSend.append("first_name",formData.first_name);
+        // formDataToSend.append("last_name",formData.last_name || "");
+        // formDataToSend.append("email",formData.email);
+        // formDataToSend.append("password",formData.password);
+        // formDataToSend.append("country_code",formData.country_code|| "");
+        // formDataToSend.append("phone",formData.phone || "");
+        // if(profilePic) formDataToSend.append("profile_pic",profilePic);
+        const res = await api.signup(formData);
+
+        alert(res.message || "Signup SucessFul!");
         setFormData({profile_pic:"" ,first_name:"",last_name:"",email:"",password:"",country_code:"",phone:""});
 
     }catch(error:any){
-        alert(error.response?.data?.message || "Signup failed");
+        setError(error.response?.data?.message || "Signup failed");
     }
     };
 
     return (
+  
    <div className="signup-container">
       <h2>Sign Up</h2>
       <form className="signup-form" onSubmit={handleSignup}>
@@ -72,7 +92,7 @@ const Signup = () =>{
           <input
             type="text"
             name="country_code"
-            placeholder="+91"
+            placeholder="+"
             value={formData.country_code}
             onChange={handleChange}
             required
@@ -88,6 +108,7 @@ const Signup = () =>{
             className="phone-number"
           />
         </div>
+        {error && <p className="signup-error">{error}</p>}
         <button type="submit">Sign Up</button>
         
         
@@ -107,6 +128,7 @@ const Signup = () =>{
         </button>
       </p>
     </div>
+  
   );
 }
 export default Signup;

@@ -1,9 +1,18 @@
 import axios from "axios";
 import { SignupData } from "../types/userType";
 
-const API_URL = "http://localhost:5000/api/signup";
+export class signupUser {
+  private API_Url = "http://localhost:5000/api/signup";
 
-export const signupUser = (data: SignupData) => {
-  return axios.post(API_URL, data);
+  signup = async (data: SignupData) => {
+    try {
+      const response = await axios.post(`${this.API_Url}`, data);
+      return response.data;
+
+    }
+    catch (error:any){
+      throw new Error(error.response?.data?.message || "Signup failed")
+    }
+  };
 };
 

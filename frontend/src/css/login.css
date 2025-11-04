@@ -3,14 +3,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f9fafb; 
+  /* background-color: #b5d5f5;  */
   padding: 1rem;
+  /* background:#93c9f5; */
 }
 
 .login-card {
   width: 100%;
   max-width: 400px;
-  background-color: #ffffff;
+  background-color:  #93c9f5;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -44,7 +45,7 @@
 
 .login-form button {
   padding: 0.75rem 1rem;
-  background-color: #3b82f6;
+  background-color:#064358;
   color: white;
   font-weight: 600;
   border: none;
@@ -54,11 +55,11 @@
 }
 
 .login-form button:hover {
-  background-color: #2563eb;
+  background-color: #2e6987;
 }
 
 .login-error {
-  color: #ef4444; /* red */
+  color: #ef4444; 
   font-size: 0.875rem;
   text-align: center;
 }

@@ -8,7 +8,7 @@ const  Login=() => {
     const navigate = useNavigate();
     const [form,setFormData] = useState<LoginData>({email:"",password:""});
     const[error,setError] = useState<string|null>(null);
-    const [loading,setLoading] = useState(false);
+    
 
     const loginuser= new loginUser();
 
@@ -18,11 +18,19 @@ const  Login=() => {
     const handleSubmit = async(e: React.FormEvent) =>{
         e.preventDefault();
         setError(null);
-        setLoading(true);
+        
         try{
             const res = await loginuser.login(form);
             console.log("Login success:",res);
-            localStorage.setItem("token",res.token);
+          
+            if (res.token) {
+              localStorage.setItem("token", res.token);
+              console.log("Token saved:", res.token);
+              navigate("/navbar");
+            } else {
+              console.log("No token found in response!");
+              setError("Login failed: token not found");
+            }
         }
         catch(error:any){
             setError(error.message)
@@ -50,12 +58,10 @@ const  Login=() => {
             required
           />
           {error && <p className="login-error">{error}</p>}
-          <button type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </button>
+          <button type="submit" >Login</button>
         </form>
         <div className="login-footer">
-          Don't have an account? { ' '}
+          Don't have an account?
           <button
           style={{
             color :"#007bff",
@@ -71,4 +77,4 @@ const  Login=() => {
     </div>
   );
 }
-export default Login
+export default Login;

@@ -1,19 +1,21 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, CreateDateColumn } from "typeorm";
-import { Role } from "./role.js";
-import { Permission } from "./permission.js";
+import type { Role } from "./role.js";
+import type { Permission } from "./permission.js";
+import {Permission as PermissionEntity} from "./permission.js";
+import {Role as RoleEntity} from "./role.js";
 
 @Entity("role_permissions")
 export class RolePermission {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
-    @ManyToOne(() => Role, (role) => role.rolePermissions, { onDelete: "CASCADE", lazy: true })
+    @ManyToOne(() => RoleEntity, (role) => role.rolePermissions, { onDelete: "CASCADE"})
     @JoinColumn({ name: "role_id" })
-    role!: Promise<Role>;
+    role!: Role;
 
-    @ManyToOne(() => Permission, (permission) => permission.rolePermissions, { onDelete: "CASCADE", lazy: true })
+    @ManyToOne(() => PermissionEntity, (permission) => permission.rolePermissions, { onDelete: "CASCADE"})
     @JoinColumn({ name: "permission_id" })
-    permission!: Promise<Permission>;
+    permission!: Permission;
 
     @CreateDateColumn({ type: "timestamp" })
     granted_at!: Date;

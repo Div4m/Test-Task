@@ -1,19 +1,21 @@
 import { Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { User } from "./users.js";
-import { Task } from "./tasks.js";
+import type { User } from "./users.js";
+import { User as UserEntity } from "./users.js";
+import type { Task } from "./tasks.js";
+import { Task as TaskEntity } from "./tasks.js";
 
 @Entity("starred_task")
 export class StarredTask {
     @PrimaryGeneratedColumn("uuid")
     id!: string;
 
-    @ManyToOne(() => User, (user) => user.starredTasks, { onDelete: "CASCADE", lazy: true })
+    @ManyToOne(() => UserEntity, (user) => user.starredTasks, { onDelete: "CASCADE"})
     @JoinColumn({ name: "user_id" })
-    user!: Promise<User>;
+    user!: User;
 
-    @ManyToOne(() => Task, (task) => task.starredBy, { onDelete: "CASCADE", lazy: true })
+    @ManyToOne(() => TaskEntity, (task) => task.starredBy, { onDelete: "CASCADE"})
     @JoinColumn({ name: "task_id" })
-    task!: Promise<Task>;
+    task!: Task;
 
     @CreateDateColumn({ name: "created_at", type: "timestamp" })
     created_at!: Date;

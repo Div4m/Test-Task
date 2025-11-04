@@ -45,7 +45,7 @@ export class UserController{
                 return;
             }
             
-            const updates= req.body;
+            const updates = req.body;
             const updatedUser = await this.userService.updateUserById(userId,updates);
             if (!updatedUser) {
                 res.status(404).json({message:"User not found "});

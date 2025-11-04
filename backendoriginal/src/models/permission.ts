@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
-import { RolePermission } from "./rolePermission.js";
+import type { RolePermission } from "./rolePermission.js";
+import {RolePermission as RolePermissionEntity} from "./rolePermission.js";
 
 @Entity("permissions")
 export class Permission {
@@ -12,8 +13,8 @@ export class Permission {
     @Column({ nullable: true, type: "text" })
     description?: string;
 
-    @OneToMany(() => RolePermission, (rolePermission) => rolePermission.permission, { lazy: true })
-    rolePermissions!: Promise<RolePermission[]>;
+    @OneToMany(() => RolePermissionEntity, (rolePermission) => rolePermission.permission)
+    rolePermissions!: RolePermission[];
 
     @CreateDateColumn({ type: "timestamp" })
     created_at!: Date;

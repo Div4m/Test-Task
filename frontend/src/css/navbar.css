@@ -1,0 +1,59 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #93c9f5;
+  color: rgb(18, 18, 18);
+  font-family: Arial, sans-serif;
+}
+
+/* Left section: logo + name */
+.navbar-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 40px; /* adjust logo size */
+  margin-right: 10px; /* space between logo and text */
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Middle: nav links */
+.navbar-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.navbar-links li a:hover {
+  color: #ffd700; /* golden hover effect */
+}
+
+/* Right: logout button */
+.navbar-right .logout-btn {
+  background-color: #e53935; /* red */
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.navbar-right .logout-btn:hover {
+  background-color: #b71c1c; /* darker red on hover */
+}

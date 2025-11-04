@@ -1,10 +1,12 @@
+
 .signup-container {
   max-width: 400px;
   margin: 50px auto;
   padding: 40px;
   border-radius: 10px;
-  border: 1px solid #1a1919ff;
-  background: #e4dfdf;
+  border: 1px solid rgb(187, 180, 180);
+  background: #93c9f5;
+  /* background-color: #b5d5f5; */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -30,7 +32,7 @@
   width: 100%;
   padding: 12px;
   border: 1px solid;
-  background: #007bff;
+  background: #041f3b;
   color: white;
   font-weight: bold;
   border-radius: 5px;
@@ -39,7 +41,7 @@
 }
 
 .signup-form button:hover {
-  background: #0056b3;
+  background: #064358;
 }
 
 /* Phone fields wrapper */
@@ -58,6 +60,12 @@
   text-align: center;
   margin-top: 10px;
   font-size: 14px;
+}
+
+.signup-error {
+  color: #ef4444; 
+  font-size: 0.875rem;
+  text-align: center;
 }
 
 .signup-container p button {
