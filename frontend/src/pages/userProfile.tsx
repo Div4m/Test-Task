@@ -47,7 +47,7 @@ const UserProfile = () => {
     }
     if (error) return <p className='error-text'>{error}</p>;
 
-    return(
+  return(
     <div className="profile-container">
       <div className="profile-card">
         <img
@@ -115,12 +115,23 @@ const UserProfile = () => {
                 <strong>Phone:</strong> {profile?.phone}
               </p>
             )}
-            {profile?.role && (
+            {profile?.role && (   // here i am rendering(getting error) 
               <p>
-                <strong>Role:</strong> {profile?.role}
+                <strong>Role:</strong>{' '}
+                {typeof profile.role === 'object'
+                  ? (profile.role as any).role_name
+                  : profile.role}
               </p>
             )}
-            <button onClick={() => setEdit(true)} className='button-edit'>Edit Profile</button>
+            <button
+              onClick={() => {
+                setFormData(profile ?? {});
+                setEdit(true);
+              }}
+              className="button-edit"
+            >
+              Edit Profile
+            </button>
         </div>
         )}
       </div>

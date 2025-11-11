@@ -20,7 +20,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER || "maru",
   password: process.env.DB_PASSWORD || "maru444",
   database: process.env.DB_NAME || "taskmanager",
-  synchronize: true, 
+  synchronize: false, 
   logging: true,
   entities: [User,Task,Role,TaskHistory,RolePermission,StarredTask,Priority,Permission],
 });
