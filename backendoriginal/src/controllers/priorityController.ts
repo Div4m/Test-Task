@@ -1,21 +1,23 @@
 import {Request ,Response} from "express";
-import { PriorityApi } from "../api/priorityApi.js";
+import { PriorityService } from "../services/priorityService.js";
+
 
 export class PriorityController{
-    private priorityApi = new PriorityApi();
-
-    async getPriorities(req:Request,res:Response){
+    private priorityService = new PriorityService();
+    // handling a getPriorities():-  req and res
+    async getAllPriorities(req:Request,res:Response){
         try{
-            const priority = await this.priorityApi.getPriorities()
+            const priority = await this.priorityService.getPriorities()
             res.status(200).json(priority);
         }catch(error:any){
             res.status(400).json({message:error.message});
         }
     }
+    // handling a getPriorityById():- 
     async getPriorityById(req:Request,res:Response){
         try{
             const { id } = req.params;
-            const result = await this.priorityApi.getPriorityById(id);
+            const result = await this.priorityService.getPriorityById(id);
             if(!result) throw new Error ("priority not found");
             res.status(200).json(result);
         }

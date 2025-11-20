@@ -1,13 +1,13 @@
 import type {Response} from "express";
-import { UserApi } from "../api/userProfileAPI.js";
+import { UserService } from "../services/userProfileService.js";
 import type { AuthRequest } from "../middleware/authmMiddleware.js";
 
 
 export class UserController{
-    private userService : UserApi;
+    private userService : UserService;
 
     constructor (){
-        this.userService  = new UserApi();
+        this.userService  = new UserService();
     }
 
     getProfile = async(req:AuthRequest, res:Response):Promise<void> =>{
@@ -17,7 +17,7 @@ export class UserController{
                 res.status(401).json({message:"Unathorized userId"})
                 return;
             }
-            const user = await this.userService.getUserById(userId);
+            const user = await this.userService.getProfile(userId);
 
             if(!user){
                 res.status(404).json({message:"User not found"});
@@ -46,7 +46,7 @@ export class UserController{
             }
             
             const updates = req.body;
-            const updatedUser = await this.userService.updateUserById(userId,updates);
+            const updatedUser = await this.userService.updateProfile(userId,updates);
             if (!updatedUser) {
                 res.status(404).json({message:"User not found "});
                 return;

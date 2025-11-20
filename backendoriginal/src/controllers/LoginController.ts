@@ -1,8 +1,8 @@
 import type {Request,Response} from "express";
-import { LoginApi} from "../api/loginApi.js";
+import { LoginService} from "../services/loginService.js";
 
 export class LoginController{
-    private loginService = new LoginApi();
+    private loginService = new LoginService();
 
     login = async(req:Request,res:Response)=>{
         try{
@@ -10,6 +10,7 @@ export class LoginController{
             res.status(200).json({message,user,token,}); // here i added token with user
 
         }catch(err:any){
+            console.log("login error:",err.message)
             res.status(400).json({error:err.message});
         }
     }

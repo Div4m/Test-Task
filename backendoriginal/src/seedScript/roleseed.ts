@@ -1,19 +1,33 @@
-import { AppDataSource } from "../config/db.js";
-import {Role} from "../models/role.js";
+import { db } from "../config/db.js";
+
 
 export class RoleSeeder{
-    private roleRepo = AppDataSource.getRepository(Role);
+    
     constructor(){}
 
-    async seedRoles(){
-        const roles = ["admin","user"];
-        for (const roleName of roles){
-            const existingRole = await this.roleRepo.findOneBy({role_name:roleName});
-            if(!existingRole){
-                const newRole = this.roleRepo.create({role_name:roleName});
-                await this.roleRepo.save(newRole);
-            }
+    async seedRoles() {
+    const roles = ["admin", "user"];
+
+    try {
+      for (const roleName of roles) {
+        // Check if role exists
+        const existing = await db.query(
+          "SELECT * FROM roles WHERE role_name = $1",
+          [roleName]
+        );
+
+        if (existing.rows.length === 0) {
+          // Insert new role
+          await db.query("INSERT INTO roles (role_name) VALUES ($1)", [roleName]);
+          console.log(` Role '${roleName}' added successfully.`);
+        } else {
+          console.log(` Role '${roleName}' already exists.`);
         }
-        console.log("role seeded succesfully!");
+      }
+      return { success: true, message: "All roles seeded successfully!" };
+    } catch (err) {
+      console.error(" Error seeding roles:", err);
+      throw err; // Re-throw error so index.ts can handle it
     }
+  }
 }

@@ -1,11 +1,11 @@
 import type{ Request,Response } from "express";
-import { SignupApi } from "../api/signupApi.js";
+import { SignupService } from "../services/signupService.js";
 
 export class SignupController {
-    private signupService :  SignupApi;
+    private signupService :  SignupService;
 
     constructor(){
-        this.signupService = new SignupApi();
+        this.signupService = new SignupService();
 
     }
     signup = async (req: Request ,res: Response)=>{

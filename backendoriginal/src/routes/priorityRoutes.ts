@@ -4,7 +4,7 @@ import {Router} from "express";
 const router =Router();
 const priorityController = new PriorityController();
 
-router.get("/",(req,res)=>priorityController.getPriorities(req,res));
+router.get("/",(req,res)=>priorityController.getAllPriorities(req,res));
 router.get("/:id",(req,res)=>priorityController.getPriorityById(req,res));
 
 
