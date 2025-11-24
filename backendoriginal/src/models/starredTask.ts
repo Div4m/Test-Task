@@ -66,7 +66,7 @@ export class StarredTaskModel{
             t.priority_id,
             t.created_at AS task_created_at
         FROM starred_task st
-        JOIN tasks t 
+        LEFT JOIN tasks t 
             ON st.task_id = t.id
         WHERE st.user_id = $1
         ORDER BY st.created_at DESC`,

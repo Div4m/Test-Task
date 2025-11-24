@@ -1,6 +1,8 @@
 import {db} from "../config/db.js";
 import type { TaskCreateDTO, TaskUpdateDTO} from "../types/TaskDTO.js";
 import { v4 as uuidv4} from "uuid";
+
+
 export class TaskModel {
     async checkUser(data:TaskCreateDTO){
         // check user exist or not 
@@ -31,16 +33,17 @@ export class TaskModel {
             `INSERT INTO tasks 
             (task_id,title,description,due_date,status,user_id,assigned_to,priority_id)
             VALUES($1,$2,$3,$4,$5,$6,$7,$8)
-            RESTURNING *`,
+            RETURNING *`,
             [
                 taskId,
                 data.title,
                 data.description ?? null ,
                 data.due_date ?? null ,
                 data.status?? "not started" ,
+                data.userId,
                 data.assignedToId ?? null  ,
                 data.priorityId ?? null,
-                data.userId,
+                
             ]
         );
         const createTask = result.rows[0];
@@ -85,12 +88,19 @@ export class TaskModel {
 
 
                 p.level AS priority_level,
-                p.weight AS priority_weight
+                p.weight AS priority_weight,
+                --sql comment to check if the task is starred by the user
+                CASE 
+                    WHEN s.user_id IS NOT NULL THEN TRUE
+                    ELSE FALSE
+                END AS is_starred
 
              FROM tasks AS t
                 LEFT JOIN users AS u ON t.user_id=u.id
                 LEFT JOIN users AS a ON t.assigned_to = a.id
                 LEFT JOIN priorities AS p ON t.priority_id = p.id 
+                LEFT JOIN starred_task AS s ON t.id = s.task_id AND s.user_id = $1
+                
                 ORDER BY created_at DESC;
                 `,
                 [userId]
@@ -98,7 +108,7 @@ export class TaskModel {
         return result.rows;
     }
 
-    async getTaskById(id:string){
+    async getTaskById(taskId:string,userId:string){
         const result = await db.query(
             `SELECT              
                 t.id,
@@ -119,23 +129,77 @@ export class TaskModel {
                 a.last_name AS assigned_lname,
 
                 p.level AS priority_level,
-                p.weight AS priority_weight
-            FROM tasks AS t
-                LEFT JOIN users AS u ON `
+                p.weight AS priority_weight,
 
+                CASE 
+                    WHEN s.user_id IS NOT NULL THEN TRUE
+                    ELSE FALSE
+                END AS is_starred
+            FROM tasks AS t
+                LEFT JOIN users AS u ON t.user_id = u.id
+                LEFT JOIN users AS a ON t.assigned_to = a.id
+                LEFT JOIN priorities AS p ON t.priority_id = p.id
+                LEFT JOIN starred_task AS s ON t.id = s.task_id AND s.user_id = $1
+            WHERE t.task_id = $2`,
+            [userId,taskId]
         );
+
         return result.rows[0];
     }
-    async updateTask(id:string ,updates:TaskUpdateDTO){
+    async updateTask(taskId:string ,userId:string,updates:TaskUpdateDTO){
+
+        const oldTaskRes= await db.query(
+            `SELECT * FROM tasks 
+            WHERE task_id =$1
+            LIMIT 1`,
+            [taskId]
+        );
+        const oldTask = oldTaskRes.rows[0];
+        if (!oldTask){
+            throw new Error ("Task not found");
+        }
         const result = await db.query(
-            `UPDATE `
+            `UPDATE tasks
+                SET title = $1,
+                    description = $2,
+                    due_date = $3,
+                    status =$4,
+                    priority_id = $5,
+                    assigned_to = $6,
+                    updated_at = Now()
+                WHERE task_id = $7
+                RETURNING *`,
+            [
+                updates.title ?? oldTask.title,
+                updates.description ?? oldTask.description,
+                updates.due_date ?? oldTask.due_date,
+                updates.status  ?? oldTask.status,
+                updates.priorityId ?? oldTask.priority_id,
+                updates.assignedToId ?? oldTask.assigned_to,
+                taskId
+            ]  
+        );
+        const  updatedTask = result.rows[0];
+        // task history update
+        await db.query(
+            `INSERT INTO task_history
+            (action,old_value,new_value,task_id,user_id)
+            VALUES($1,$2,$3,$4,$5)`,
+            [
+                "task updated",
+                oldTask.status,
+                updatedTask.status,
+                updatedTask.id,
+                userId,
+            ]   
         )
+        return updatedTask;
     }
-    async deleteTask(id:string){
+    async deleteTask(taskId:string){
         await db.query(
             `DELETE FROM tasks
-            WHERE id = $1`,
-            [id]
+            WHERE task_id = $1`,
+            [taskId]
         );
     }
 }

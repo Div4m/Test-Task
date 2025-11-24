@@ -1,4 +1,3 @@
-import { db } from "../config/db.js";
 import { UserModel } from "../models/userModel.js";
 import type { IUserCreateDTO } from "../types/UserDTO.js";
 import bcrypt from "bcrypt";

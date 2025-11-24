@@ -19,7 +19,7 @@ export class AuthMiddleware{
 
     }
 
-    verifyToken = (req:AuthRequest,res:Response,next:NextFunction)=>{
+    verifyToken = (req:Request,res:Response,next:NextFunction)=>{
         try{
             const authHeader = req.headers.authorization ;
             if(!authHeader || !authHeader.startsWith("Bearer")){
@@ -29,8 +29,8 @@ export class AuthMiddleware{
 
 
             const decode = Jwt.verify(token,this.secret) as unknown as jwtpayload;
-            
-            req.user = decode;
+            // changed here 21/11/25 
+            (req as AuthRequest).user = decode;
             next();
         }catch(error){
             return res.status(401).json({message:"token expired"});
